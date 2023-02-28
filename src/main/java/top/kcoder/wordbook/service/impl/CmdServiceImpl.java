@@ -1,0 +1,24 @@
+package top.kcoder.wordbook.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import top.kcoder.wordbook.service.ICmdService;
+import top.kcoder.wordbook.service.IProcessService;
+
+/**
+ * CmdSericeImpl
+ *
+ * @author xiejinjie
+ * @date 2023/2/28
+ */
+@Service
+public class CmdServiceImpl implements ICmdService {
+
+    @Autowired
+    private IProcessService processService;
+
+    @Override
+    public void openBrowser(String url) {
+        processService.execSync(processService.buildCmd("rundll32 url.dll,FileProtocolHandler " + url));
+    }
+}
