@@ -9,10 +9,7 @@ import top.kcoder.wordbook.util.CommonUtil;
 
 import javax.annotation.PostConstruct;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 import static top.kcoder.wordbook.constant.WordbookConstant.SAVE_FILENAME;
 
@@ -72,6 +69,22 @@ public class WordbookServiceImpl implements IWordbookService {
             wordbook.add(new Word(wd, 1));
         }
         saveWordbook();
+    }
+
+    @Override
+    public void removeWord(String word) {
+        if (CommonUtil.isEmpty(word)) {
+            return;
+        }
+        Iterator<Word> iterator = wordbook.iterator();
+        while (iterator.hasNext()) {
+            Word next = iterator.next();
+            if (word.equals(next.getWord())) {
+                iterator.remove();
+                saveWordbook();
+                break;
+            }
+        }
     }
 
     private synchronized void saveWordbook() {

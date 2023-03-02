@@ -14,4 +14,6 @@ public interface IWordbookService {
     List<Word> getWordbook();
 
     void recordWord(String word);
+
+    void removeWord(String work);
 }
