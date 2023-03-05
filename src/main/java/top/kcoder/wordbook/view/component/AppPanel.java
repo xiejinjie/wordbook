@@ -12,6 +12,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import java.util.List;
+import java.util.Locale;
 
 import static top.kcoder.wordbook.constant.WordbookConstant.DICT_URL;
 import static top.kcoder.wordbook.view.AppFrameStyle.GLOBAL_FONT;
@@ -67,7 +68,7 @@ public class AppPanel extends JPanel {
         this.add(deleteBtn);
 
         searchBtn.addActionListener(e -> {
-            String word = wordField.getText().trim();
+            String word = wordField.getText().trim().toLowerCase(Locale.ROOT);
             if (CommonUtil.isEmpty(word)) {
                 return;
             }

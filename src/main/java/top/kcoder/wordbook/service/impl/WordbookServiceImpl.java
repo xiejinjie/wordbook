@@ -23,7 +23,7 @@ import static top.kcoder.wordbook.constant.WordbookConstant.SAVE_FILENAME;
 public class WordbookServiceImpl implements IWordbookService {
     private static final Logger logger = LoggerFactory.getLogger(WordbookServiceImpl.class);
 
-    private List<Word> wordbook = new ArrayList<>();
+    private List<Word> wordbook = new LinkedList<>();
 
     @PostConstruct
     public void loadWordbook() {
@@ -62,11 +62,14 @@ public class WordbookServiceImpl implements IWordbookService {
 
     @Override
     public void recordWord(String wd) {
+        wordbook.sort(Comparator.comparing(Word::getTimes).reversed());
         Word word = wordbook.stream().filter(w -> w.getWord().equals(wd)).findFirst().orElse(null);
         if (word != null) {
             word.setTimes(word.getTimes() + 1);
+            wordbook.remove(word);
+            wordbook.add(0, word);
         } else {
-            wordbook.add(new Word(wd, 1));
+            wordbook.add(0, new Word(wd, 1));
         }
         saveWordbook();
     }
