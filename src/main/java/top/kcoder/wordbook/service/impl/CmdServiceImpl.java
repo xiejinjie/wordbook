@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import top.kcoder.wordbook.service.ICmdService;
 import top.kcoder.wordbook.service.IProcessService;
+import top.kcoder.wordbook.util.SystemUtil;
 
 /**
  * CmdSericeImpl
@@ -19,6 +20,11 @@ public class CmdServiceImpl implements ICmdService {
 
     @Override
     public void openBrowser(String url) {
-        processService.execSync(processService.buildCmd("rundll32 url.dll,FileProtocolHandler " + url));
+        if (SystemUtil.isWindows()) {
+            processService.execSync(processService.buildCmd("rundll32 url.dll,FileProtocolHandler " + url));
+        }
+        if (SystemUtil.isMacOs()) {
+            processService.execSync(new String[]{"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", url});
+        }
     }
 }

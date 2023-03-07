@@ -8,6 +8,7 @@ import top.kcoder.wordbook.util.CommonThreadPool;
 import top.kcoder.wordbook.util.CommonUtil;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.Future;
 
 /**
@@ -52,7 +53,7 @@ public class ProcessServiceImpl implements IProcessService {
             }
             Process pro = processBuilder.start();
             try (InputStream in = pro.getInputStream();
-                 BufferedReader read = new BufferedReader(new InputStreamReader(in, "gbk"))) {
+                 BufferedReader read = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8))) {
                 String line = null;
                 while ((line = read.readLine()) != null) {
                     logger.info(line);
