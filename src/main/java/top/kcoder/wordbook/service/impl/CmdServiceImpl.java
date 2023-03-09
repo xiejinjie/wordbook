@@ -24,7 +24,7 @@ public class CmdServiceImpl implements ICmdService {
             processService.execSync(processService.buildCmd("rundll32 url.dll,FileProtocolHandler " + url));
         }
         if (SystemUtil.isMacOs()) {
-            processService.execSync(new String[]{"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", url});
+            processService.execSync(new String[]{"open", url});
         }
     }
 }
