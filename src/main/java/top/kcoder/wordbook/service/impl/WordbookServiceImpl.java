@@ -48,7 +48,7 @@ public class WordbookServiceImpl implements IWordbookService {
                 String[] ss = line.split("\\|");
                 wordbook.add(new Word(ss[0], Integer.valueOf(ss[1])));
             }
-            wordbook.sort(Comparator.comparing(Word::getTimes).reversed());
+            wordbook.sort(new WordComparator());
         } catch (IOException e) {
             logger.error("读取文件失败");
             throw new RuntimeException(e);
@@ -62,7 +62,7 @@ public class WordbookServiceImpl implements IWordbookService {
 
     @Override
     public void recordWord(String wd) {
-        wordbook.sort(Comparator.comparing(Word::getTimes).reversed());
+        wordbook.sort(new WordComparator());
         Word word = wordbook.stream().filter(w -> w.getWord().equals(wd)).findFirst().orElse(null);
         if (word != null) {
             word.setTimes(word.getTimes() + 1);
@@ -100,6 +100,22 @@ public class WordbookServiceImpl implements IWordbookService {
             bw.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    class WordComparator implements Comparator<Word> {
+
+        @Override
+        public int compare(Word w1, Word w2) {
+            // 倒序排列
+            if (w1.getTimes() > w2.getTimes()) {
+                return -1;
+            } else if (w1.getTimes() < w2.getTimes()) {
+                return 1;
+            } else {
+                // 字符顺序
+                return w1.getWord().compareTo(w2.getWord());
+            }
         }
     }
 }
